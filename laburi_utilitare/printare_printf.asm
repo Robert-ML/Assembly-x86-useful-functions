@@ -1,4 +1,5 @@
 %include "io.inc"
+
 extern printf
 
 section .data
@@ -18,6 +19,6 @@ CMAIN:
     push print_message_with_info
     call printf
     add esp, 8
-    
+
     xor eax, eax
     ret
