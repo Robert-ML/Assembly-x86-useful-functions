@@ -1,8 +1,55 @@
+; read <arg1> characters from stdin or '\n' and then print them with a space between them
+; sort the odd digits ascending and print them with a space between them
+; make their sum and print it
+
 %include "io.inc"
+
+extern scanf
+
+section .data
+    read_char db "%c", 0
 
 section .text
 global CMAIN
 CMAIN:
+    mov ebp, esp; for correct debugging
+
+    ; get the maximum number of characetrs to read from arg1
+    mov esi, [ebp + 8]
+    mov edi, [esi + 4] ; arg1 is a string
+    
+    push edi
+    call my_atoi
+    add esp, 4
+    mov ecx, eax ; arg1 in numeric form is in ecx now
+    dec esp
+    mov [esp], byte 0 ; we put \0 at the end of the string
+
+; read from keyboard each caracter
+read_loop:
+    cmp ecx, 0
+    jz read_done
+    dec ecx
+    
+    ; alocate an int of memory
+    sub esp, 1
+    mov ebx, esp
+    
+    push ebx
+    push dword read_char
+    call scanf
+    add esp, 8
+    
+    mov dl, [ebx]
+    cmp dl, 0xA ; 0xA =  \n
+    jnz read_loop
+
+    ; we finished reading
+read_done:
+    
+    PRINT_STRING [esp]
+    NEWLINE
+    
     xor eax, eax
     ret
     

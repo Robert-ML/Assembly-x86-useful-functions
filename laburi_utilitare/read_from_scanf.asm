@@ -9,7 +9,6 @@ section .text
 global CMAIN
 CMAIN:
     mov ebp, esp; for correct debugging
-    ;write your code here
     
     ; alocam pe stiva un int
     sub esp, 4
